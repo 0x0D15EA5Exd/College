@@ -19,19 +19,19 @@ struct Etape
 {
 	Date date;
 	char ville[LONGEUR_MOT];
-	Etape* precednte = nullptr;
-	Etape* suivante = nullptr;
+	Etape* precedent = nullptr;
+	Etape* suivant = nullptr;
 };
 
 class EtapeTrain : Etape
 {
 public:
 	EtapeTrain();
-	EtapeTrain*	add(Date tmp, const char ville[LONGEUR_MOT]);
-	void setBoardingTime(unsigned int j);
-	void setStation(char* Station) const;
+	void add(Date tmp, const char	station[LONGEUR_MOT], const char ville[LONGEUR_MOT], unsigned int k, arrivalTime arrival);
+	void setStation(const char* Station);
 	void setArrivalTime(arrivalTime Tmp) const;
-
+	void copy(char * dst, const char * src, int max);
+	void addToEnd(EtapeTrain* Etape, EtapeTrain** head);
 	//friend istream& operator>> (istream& i, EtapeTrain etapeT);
 	~EtapeTrain();
 private:
@@ -39,4 +39,3 @@ private:
 	char station[LONGEUR_MOT];
 	arrivalTime departureTime;
 };
-
