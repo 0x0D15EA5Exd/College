@@ -1,11 +1,8 @@
 #pragma warning(disable: 4996)
-#include "Etape.h"
+#include "Etape.h"	
 #include <iostream>
 
 using namespace std;
-
-
-
 
 void clearBuffer(char *tmpchar)
 {
@@ -19,6 +16,7 @@ Etape::Etape()
 	departureTime = { 0,0 };
 	char t[LONGEUR_MOT] = "test";
 	copy(station, t, LONGEUR_MOT);
+	copy(ville, t, LONGEUR_MOT);
 	//Ctor 
 	// penser à rajouter des valeurs par défaut.
 	printf("Adress previous : 0x%p", previous);
@@ -27,16 +25,17 @@ Etape::Etape()
 
 void Etape::setStation(const char*)
 {
+	// useless; -> We acces to private class member with a pointer;
 }
 
 void Etape::setArrivalTime(arrivalTime)
 {
-	//
+	//useless;
 }
 
 void Etape::setBoardingTime(unsigned int)
 {
-	//
+	//useless;
 }
 
 void Etape::copy(char* dst, const char* src, int max)
@@ -44,7 +43,7 @@ void Etape::copy(char* dst, const char* src, int max)
 	int end = strlen(src);
 	if (end > max) end = max;
 	strncpy(dst, src, max);
-	dst[end] = '\0';
+	dst[end] = '\0';	
 }
 
 istream& operator >> (istream& i, Etape& tmp)
@@ -72,9 +71,38 @@ istream& operator >> (istream& i, Etape& tmp)
 	return i;
 }
 
-ostream& operator<<(ostream& o, const Etape& etapeT)
+Etape::~Etape()
 {
-	
+}
+
+void printList(Etape* etapeT)
+{
+	Etape* last; //= reinterpret_cast<EtapeStr*>(*etapeT);
+
+	while (etapeT != nullptr)
+	{
+		std::cout << etapeT << std::endl << std::endl;
+		//SetapeT = etapeT->next(); 
+	}
+	return (void)"test";
+}
+// Operator Overflow for Date Struct 
+std::ostream& operator<<(std::ostream& os, const Date& dateT)
+{	
+	os << "[" << dateT.jour << "/" << dateT.mois << "/" << dateT.annee << "]";
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const arrivalTime& arrivalT)
+{
+	os << arrivalT.hour << "h" << arrivalT.minutes;
+	return os;
+
+}
+
+// Operator overflow for Etape class
+std::ostream& operator<<(std::ostream& o, const Etape& etapeT)
+{
 	o << std::endl << "A " << etapeT.ville << " le ";
 	o << etapeT.dateEtape << " a " << etapeT.departureTime;
 	o << "Est en gare de " << etapeT.station << " pour " << etapeT.boardingTime;
@@ -82,52 +110,28 @@ ostream& operator<<(ostream& o, const Etape& etapeT)
 	return o;
 }
 
-Etape::~Etape()
+
+void EtapeExtended::add(EtapeExtended** startRef)
 {
-}
+	EtapeExtended* new_node = new EtapeExtended();
 
-void printList(Etape* etapeT)
-{
-	EtapeStr* last = reinterpret_cast<Etape*>(etapeT);
-
-	while (etapeT != nullptr)
-	{
-		std::cout << etapeT << std::endl << std::endl;
-		last = etapeT;
-		etapeT = etapeT->next; // ERROR E0513 can't cast EtapeSTR in Etape 
-
-	}
-}
-
-std::ostream& operator<<(std::ostream& os, const Date& dateT)
-{
-	
-	os << "[" << dateT.jour << "/" << dateT.mois << "/" << dateT.annee << "]";
-	return os;
-}
-
-void append(Etape** startRef)
-{
-	Etape* new_node = new Etape();
-	EtapeStr* last = reinterpret_cast<EtapeStr*>(*startRef);
 	std::cin >> *new_node;
-	new_node->next = nullptr;
 
 	if (*startRef == nullptr)
 	{
 		new_node->next = nullptr;
-		*startRef = new_node;
-		return (void)"Very SUS ";
 	}
-
-	while (last->next != nullptr)
+	EtapeExtended* last = this;
+	while (last->next() != nullptr)
 	{
-		last = last->next;
+		last = last->next();
 	}
+	last->next() = new_node;
 
-	//return;
-//	last->next = new_node;
-	new_node->previous = last;
-	return(void)"so i hope you know about cast !";
+	return (void)"t";
 }
 
+EtapeExtended* EtapeExtended::next()
+{
+	return reinterpret_cast<EtapeExtended*>(reinterpret_cast<EtapeStr*>(this)->next);
+}
