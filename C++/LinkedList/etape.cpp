@@ -135,3 +135,4 @@ EtapeExtended* EtapeExtended::next()
 {
 	return reinterpret_cast<EtapeExtended*>(reinterpret_cast<EtapeStr*>(this)->next);
 }
+// Add an accesor item : EtapeExtanded* (getEtepaExtanded); 
