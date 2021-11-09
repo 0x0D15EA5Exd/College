@@ -136,3 +136,24 @@ EtapeExtended* EtapeExtended::next()
 	return reinterpret_cast<EtapeExtended*>(reinterpret_cast<EtapeStr*>(this)->next);
 }
 // Add an accesor item : EtapeExtanded* (getEtepaExtanded); 
+/*
+class EtapeExtended : public Etape
+{
+public:
+    void add()
+    {
+         EtapeExtended* last = this;
+         while (last->next() != nullptr)
+         {
+             last = last->next();
+         }
+         // etc
+    }
+private:
+    EtapeExtended* next()
+    {
+        return reinterpret_cast<EtapeExtended*>(reinterpret_cast<EtapeStr*>(this)->next));
+    }
+}
+
+*/
